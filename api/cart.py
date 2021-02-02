@@ -46,7 +46,8 @@ def serialization(cart):
 def cart_store():
     user_id = get_jwt_identity()
     product_id = request.form.get('product_id', None)
-    price = request.form.get('price', None)
+    p = Product.query.filter_by(id=product_id).first()
+    price = p.price
 
     if not all((user_id, product_id, price)):
         return {"message": "All fields are required"}, 404

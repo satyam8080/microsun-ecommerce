@@ -25,10 +25,12 @@ def admin_registration():
     db.session.add(admin)
     db.session.commit()
 
+    res = []
     access_token = create_access_token(identity=admin.id, fresh=True)
     obj = {"token_type": "Bearer", "access_token": access_token, "name": admin.name, "email": admin.email,
            "mobile": admin.mobile, "user_type": 1, "id": admin.id}
-    return {"data": obj}, 201
+    res.append(obj)
+    return {"message": res}, 201
 
 
 @app.route('/admin/login', methods=['POST'])
