@@ -1,0 +1,200 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Demo Commerce Receipt</title>
+
+    <style>
+    .invoice-box {
+        max-width: 800px;
+        margin: auto;
+        padding: 30px;
+        border: 1px solid #eee;
+        box-shadow: 0 0 10px rgba(0, 0, 0, .15);
+        font-size: 16px;
+        line-height: 24px;
+        font-family: 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+        color: #555;
+    }
+
+    .invoice-box table {
+        width: 100%;
+        line-height: inherit;
+        text-align: left;
+    }
+
+    .invoice-box table td {
+        padding: 5px;
+        vertical-align: top;
+    }
+
+    .invoice-box table tr td:nth-child(2) {
+        text-align: right;
+    }
+
+    .invoice-box table tr.top table td {
+        padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.top table td.title {
+        font-size: 45px;
+        line-height: 45px;
+        color: #333;
+    }
+
+    .invoice-box table tr.information table td {
+        padding-bottom: 40px;
+    }
+
+    .invoice-box table tr.heading td {
+        background: #eee;
+        border-bottom: 1px solid #ddd;
+        font-weight: bold;
+    }
+
+    .invoice-box table tr.details td {
+        padding-bottom: 20px;
+    }
+
+    .invoice-box table tr.item td{
+        border-bottom: 1px solid #eee;
+    }
+
+    .invoice-box table tr.item.last td {
+        border-bottom: none;
+    }
+
+    .invoice-box table tr.total td:nth-child(2) {
+        border-top: 2px solid #eee;
+        font-weight: bold;
+    }
+
+    @media only screen and (max-width: 600px) {
+        .invoice-box table tr.top table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+
+        .invoice-box table tr.information table td {
+            width: 100%;
+            display: block;
+            text-align: center;
+        }
+    }
+
+    /** RTL **/
+    .rtl {
+        direction: rtl;
+        font-family: Tahoma, 'Helvetica Neue', 'Helvetica', Helvetica, Arial, sans-serif;
+    }
+
+    .rtl table {
+        text-align: right;
+    }
+
+    .rtl table tr td:nth-child(2) {
+        text-align: left;
+    }
+    </style>
+</head>
+
+<body>
+    <div class="invoice-box">
+        <table cellpadding="0" cellspacing="0">
+            <tr class="top">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td class="title">
+                                <img src="data:image/png;base64,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" style="width:100%; max-width:300px;">
+                            </td>
+
+                            <td>
+                                Invoice #: {{detail[0].transaction_id}}<br>
+                                Created: {{detail[0].order_on}}<br>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="information">
+                <td colspan="2">
+                    <table>
+                        <tr>
+                            <td>
+                                {{detail[0].billing_address}}
+                            </td>
+                            <td>
+                                {{detail[0].user_name}}
+
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                {{detail[0].state}} , {{ detail[0].country }} , {{ detail[0].pin_code }}
+                            </td>
+                            <td>
+                                {{detail[0].email}}
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td>
+                    Payment Method
+                </td>
+
+                <td>
+                    Online #
+                </td>
+            </tr>
+
+            <tr class="details">
+                <td>
+                    {{ detail[0].payment_mode }}
+                </td>
+
+                <td>
+                    ${{ detail[-1].total_price }}
+                </td>
+            </tr>
+
+            <tr class="heading">
+                <td>
+                    Item
+                </td>
+
+                <td>
+                    Price
+                </td>
+            </tr>
+                {% for product in products %}
+                    <tr class="item">
+
+                    <td>
+                    {{product.product_name }}
+                    </td>
+
+                    <td>
+                    ${{product.price}}
+                    </td>
+
+
+                    </tr>
+                {% endfor %}
+
+            <tr class="total">
+                <td></td>
+
+                <td>
+                   Total: ${{ detail[-1].total_price }}
+                </td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html>
