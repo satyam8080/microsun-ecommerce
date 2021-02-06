@@ -163,11 +163,12 @@ def get_all_products():
     categories = Category.query.all()
     if categories:
         res = []
-        pro_list = []
         for categorie in categories:
+
             products = Product.query.filter_by(category_id=categorie.id).all()
 
             if products:
+                pro_list = []
                 for product in products:
                     product_obj = {"product_name": product.name, "product_id": product.id,
                                    "price": product.price, "product_description": product.description,
@@ -175,7 +176,6 @@ def get_all_products():
                     pro_list.append(product_obj)
             else:
                 pro_list = []
-
             obj = {"id": categorie.id, "categorie_name": categorie.name, "description": categorie.description,
                    "photo": categorie.photo, "products": pro_list}
             res.append(obj)
