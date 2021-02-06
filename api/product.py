@@ -172,6 +172,8 @@ def get_all_products():
                                    "price": product.price, "product_description": product.description,
                                    "product_photo": product.image, "category_id": product.category_id}
                     pro_list.append(product_obj)
+            else:
+                pro_list = []
 
             obj = {"id": categorie.id, "categorie_name": categorie.name, "description": categorie.description,
                    "photo": categorie.photo, "products": pro_list}
