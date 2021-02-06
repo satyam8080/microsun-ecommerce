@@ -80,8 +80,13 @@ def serialization(order):
     res = {"id": order.id, "user_id": order.user_id, "product_id": order.product_id, "price": order.price,
            "transaction_id": order.transaction_id, "mode": order.mode, "status": order.status,
            "added_on": order.created_at, "product_name": product_detail(order.product_id)['product_name'],
-           "shipping_address": shipping_address()}
+           "shipping_address": shipping_address(), "username": username(order.user_id)}
     return res
+
+
+def username(id):
+    user = User.query.filter_by(id=id).first()
+    return user.name
 
 
 @app.route('/orders', methods=['POST'])
