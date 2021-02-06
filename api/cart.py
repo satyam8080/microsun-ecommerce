@@ -36,8 +36,7 @@ def serialization(cart):
     res = {"id": cart.id, "user_id": cart.user_id, "product_id": cart.product_id,
            "product_name": product_detail(cart.product_id)['product_name'],
            "product_description": product_detail(cart.product_id)['product_description'],
-           "expiry": expiry(cart.product_id, cart.created_at),
-           "price": cart.price, "added_on": cart.created_at}
+           "expiry": None, "price": cart.price, "added_on": cart.created_at}
     return res
 
 
