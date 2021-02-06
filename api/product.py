@@ -45,7 +45,7 @@ def get_categories(id):
 
     if category:
         res = []
-        obj = {"name": category.name, "description": category.description, "photo": category.photo}
+        obj = {"name": category.name, "description": category.description, "photo": category.photo, "id": category.id}
         res.append(obj)
         return {"message": res}, 200
     else:
@@ -59,7 +59,7 @@ def get_all_categories():
     if categories:
         res = []
         for category in categories:
-            obj = {"name": category.name, "description": category.description, "photo": category.photo}
+            obj = {"name": category.name, "description": category.description, "photo": category.photo, "id": category.id}
             res.append(obj)
         return {"message": res}, 200
     else:
