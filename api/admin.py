@@ -46,7 +46,7 @@ def admin_login():
     if admin:
         res = []
         if bcrypt.check_password_hash(admin.password, password):
-            access_token = create_access_token(identity=admin.id, fresh=True)
+            access_token = create_access_token(identity=admin.id, expires_delta=app.config['JWT_TOKEN_LIFETIME'], fresh=True)
             obj = {"token_type": "Bearer", "access_token": access_token, "name": admin.name, "email": admin.email, 
                    "mobile": admin.mobile, "user_type": 1, "id": admin.id}
             res.append(obj)
