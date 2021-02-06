@@ -85,6 +85,7 @@ def add_product():
     photo = request.files.get('photo', None)  # yy-mm
     category_id = request.form.get('category_id', None)
 
+    print(request.form)
     if not all((name, description, category_id, expirary)):
         return {"message": "All fields are required"}, 404
 
