@@ -1,8 +1,8 @@
 """empty message
 
-Revision ID: b44472fe0f2e
+Revision ID: 507e0fd52cdd
 Revises: 
-Create Date: 2021-02-02 21:06:08.546959
+Create Date: 2021-03-15 11:04:00.278512
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = 'b44472fe0f2e'
+revision = '507e0fd52cdd'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -57,7 +57,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('product_id', sa.Integer(), nullable=False),
-    sa.Column('price', sa.Integer(), nullable=False),
+    sa.Column('price', sa.String(length=128), nullable=False),
     sa.Column('created_at', sa.DateTime(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
@@ -82,7 +82,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('user_id', sa.Integer(), nullable=False),
     sa.Column('product_id', sa.Integer(), nullable=False),
-    sa.Column('price', sa.Integer(), nullable=True),
+    sa.Column('price', sa.String(), nullable=True),
     sa.Column('transaction_id', sa.String(length=512), nullable=True),
     sa.Column('mode', sa.String(length=32), nullable=True),
     sa.Column('status', sa.Enum('SUCCESS', 'FAILED', 'PENDING', 'REFUND', name='ordstatus'), nullable=False),
@@ -96,6 +96,7 @@ def upgrade():
     sa.Column('id', sa.Integer(), autoincrement=True, nullable=False),
     sa.Column('name', sa.String(length=64), nullable=False),
     sa.Column('description', sa.String(length=512), nullable=False),
+    sa.Column('price', sa.String(length=512), nullable=True),
     sa.Column('image', sa.String(length=256), nullable=True),
     sa.Column('expiry', sa.String(length=32), nullable=True),
     sa.Column('category_id', sa.Integer(), nullable=False),
