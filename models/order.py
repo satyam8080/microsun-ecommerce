@@ -23,7 +23,7 @@ class Order(db.Model):
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, nullable=False)
     product_id = db.Column(db.Integer, nullable=False)
-    price = db.Column(db.Integer, default=0, nullable=True)
+    price = db.Column(db.String, default=0, nullable=True)
     transaction_id = db.Column(db.String(512), nullable=True)
     mode = db.Column(db.String(32), nullable=True)
     status = db.Column(db.Enum(OrdStatus), nullable=False)
