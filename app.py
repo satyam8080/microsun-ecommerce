@@ -7,7 +7,7 @@ from flask_sqlalchemy import SQLAlchemy
 
 from config import Config
 
-app = Flask(__name__, static_url_path='/static')
+app = Flask(__name__, static_url_path='')
 app.config.from_object(Config)
 CORS(app)
 db = SQLAlchemy(app)

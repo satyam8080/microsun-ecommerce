@@ -4,7 +4,7 @@ from flask_jwt_extended import jwt_required
 from werkzeug.utils import secure_filename
 
 from app import app, db
-from flask import request
+from flask import request, send_from_directory
 from models.category import Category
 from models.product import Product
 
@@ -182,3 +182,8 @@ def get_all_products():
         return {"message": res}, 200
     else:
         return {"message": "No categories found"}, 404
+
+
+@app.route('/static/<path:path>/<string:file>', methods=['GET', 'POST'])
+def serve_static_resources(path, file):
+    return send_from_directory(path, file)
