@@ -81,7 +81,7 @@ def delete_category(id):
 def add_product():
     name = request.form.get('name', None)
     description = request.form.get('description', None)
-    expirary = request.form.get('expirary', None)   # yy-mm
+    expirary = '10-00'  # request.form.get('expirary', None)   # yy-mm
     photo = request.files.get('photo', None)
     category_id = request.form.get('category_id', None)
 
