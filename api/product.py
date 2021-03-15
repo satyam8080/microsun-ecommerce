@@ -15,6 +15,10 @@ def get_cat_name(id):
         return category.name
 
 
+# local image url format:
+img_url = 'https://microsun-ecommerce-backend.herokuapp.com/static/uploads/product/'
+
+
 @app.route('/category', methods=['POST'])
 @jwt_required
 def add_categories():
@@ -110,7 +114,7 @@ def get_product(id):
     if product:
         res = []
         obj = {"name": product.name, "product_id": product.id, "description": product.description,
-               "photo": product.image, "price": product.price, "category_id": product.category_id}
+               "photo": img_url + product.image, "price": product.price, "category_id": product.category_id}
         res.append(obj)
         return {"message": res}, 200
     else:
@@ -125,7 +129,7 @@ def get_product_by_category(id):
         res = []
         for product in products:
             obj = {"product_id": product.id, "name": product.name, "description": product.description,
-                   "photo": product.image, "price": product.price, "category_id": product.category_id}
+                   "photo": img_url + product.image, "price": product.price, "category_id": product.category_id}
             res.append(obj)
         return {"message": res}, 200
     else:
@@ -140,7 +144,7 @@ def get_product_all():
         res = []
         for product in products:
             obj = {"name": product.name, "product_id": product.id, "description": product.description,
-                   "photo": product.image, "category_id": product.category_id, "price": product.price,
+                   "photo": img_url + product.image, "category_id": product.category_id, "price": product.price,
                    "category": get_cat_name(product.category_id)}
             res.append(obj)
         return {"message": res}, 200
@@ -172,7 +176,7 @@ def get_all_products():
                 for product in products:
                     product_obj = {"product_name": product.name, "product_id": product.id,
                                    "price": product.price, "product_description": product.description,
-                                   "product_photo": product.image, "category_id": product.category_id}
+                                   "product_photo": img_url + product.image, "category_id": product.category_id}
                     pro_list.append(product_obj)
             else:
                 pro_list = []
