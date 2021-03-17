@@ -174,9 +174,13 @@ def get_all_products():
             if products:
                 pro_list = []
                 for product in products:
+                    if not product.image:
+                        image = None
+                    else:
+                        image = product.image
                     product_obj = {"product_name": product.name, "product_id": product.id,
                                    "price": product.price, "product_description": product.description,
-                                   "product_photo": img_url + product.image, "category_id": product.category_id}
+                                   "product_photo": img_url + image, "category_id": product.category_id}
                     pro_list.append(product_obj)
             else:
                 pro_list = []
