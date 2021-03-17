@@ -88,9 +88,10 @@ def add_product():
     expirary = '10-00'  # request.form.get('expirary', None)   # yy-mm
     photo = request.files.get('photo', None)
     category_id = request.form.get('category_id', None)
+    price = request.form.get('price', None)
 
     print(request.form)
-    if not all((name, description, category_id, expirary)):
+    if not all((name, description, category_id, expirary, price)):
         return {"message": "All fields are required"}, 404
 
     if photo:
@@ -100,7 +101,7 @@ def add_product():
         photo_filename = None
 
     product = Product(name=name, description=description, image=photo_filename, category_id=category_id,
-                      expiry=expirary)
+                      expiry=expirary, price=price)
     db.session.add(product)
     db.session.commit()
 
