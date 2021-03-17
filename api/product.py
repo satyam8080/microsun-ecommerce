@@ -219,6 +219,23 @@ def get_all_products():
         return {"message": "No categories found"}, 404
 
 
+@app.route('/product', methods=['PUT'])
+def update_product():
+    product_id = request.form.get('product_id', None)
+    name = request.form.get('name', None)
+    description = request.form.get('description', None)
+    price = request.form.get('price', None)
+
+    if Product.query.filter_by(id=product_id).first():
+        pro = Product(name=name, description=description, price=price)
+        db.session.add(pro)
+        db.session.commit()
+
+        return {"message": "Product updated successfully"}, 201
+    else:
+        return {"message": "No product or invalid product id found"}, 404
+
+
 @app.route('/static/<path:path>/<string:file>', methods=['GET', 'POST'])
 def serve_static_resources(path, file):
     return send_from_directory(path, file)
