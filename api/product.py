@@ -114,8 +114,18 @@ def get_product(id):
 
     if product:
         res = []
+        if product.image:
+            image = product.image
+        else:
+            image = "noimage.jpg"
+
+        if product.category_id:
+            cat_id = product.category_id
+        else:
+            cat_id = 1
+
         obj = {"name": product.name, "product_id": product.id, "description": product.description,
-               "photo": img_url + product.image, "price": product.price, "category_id": product.category_id}
+               "photo": img_url + image, "price": product.price, "category_id": cat_id}
         res.append(obj)
         return {"message": res}, 200
     else:
@@ -129,8 +139,18 @@ def get_product_by_category(id):
     if products:
         res = []
         for product in products:
+            if product.image:
+                image = product.image
+            else:
+                image = "noimage.jpg"
+
+            if product.category_id:
+                cat_id = product.category_id
+            else:
+                cat_id = 1
+
             obj = {"product_id": product.id, "name": product.name, "description": product.description,
-                   "photo": img_url + product.image, "price": product.price, "category_id": product.category_id}
+                   "photo": img_url + image, "price": product.price, "category_id": cat_id}
             res.append(obj)
         return {"message": res}, 200
     else:
