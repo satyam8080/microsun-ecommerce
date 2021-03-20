@@ -55,7 +55,7 @@ def details(transaction_id):
                "pin_code": address.pin_code, "payment_mode": order.mode, "status": order.status,
                "transaction_id": transaction_id}
         res.append(obj)
-        price += order.price
+        price += int(order.price)
 
     temp = {"total_price": price}
     res.append(temp)
