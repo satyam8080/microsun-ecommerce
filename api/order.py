@@ -34,7 +34,7 @@ def send_bill(id, transaction_id):
     to = user.email
     subject = "Order Confirmed"
     template = "new_user"
-    link = "https://mcafee-demo.herokuapp.com/" + "pdf/get/" + transaction_id
+    link = "https://microsun-ecommerce-backend.herokuapp.com/" + "pdf/get/" + transaction_id
     msg = Message(subject, recipients=[to], sender=app.config['FLASKY_MAIL_SENDER'])
     msg.html = render_template(template + '.html', user=user, link=link)
     mail.send(msg)
