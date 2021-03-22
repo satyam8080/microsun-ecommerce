@@ -21,3 +21,7 @@ class Config(object):
     MAIL_PASSWORD = os.environ.get('MAIL_PASSWORD') or 'xudndaxuwtzextll'
     FLASKY_MAIL_SUBJECT_PREFIX = '[McAfee-Demo]'
     FLASKY_MAIL_SENDER = 'McAfee-Demo Admin <iamsatyam26@gmail.com>'
+    S3_BUCKET = 'microsun-ecommerce-bucket'
+    S3_KEY = 'AKIAZT4IUTHNCNF5FB4M'
+    S3_SECRET = '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'
+    S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)

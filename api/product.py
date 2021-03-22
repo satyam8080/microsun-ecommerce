@@ -1,5 +1,7 @@
 import os
+import time
 
+import boto3
 from flask_jwt_extended import jwt_required
 from werkzeug.utils import secure_filename
 
@@ -9,14 +11,22 @@ from models.category import Category
 from models.product import Product
 
 
+# local image url format:
+# img_url = 'https://microsun-ecommerce-backend.herokuapp.com/static/uploads/product/'
+img_url = app.config['S3_LOCATION'] + 'product/'
+cat_img_url = app.config['S3_LOCATION'] + 'category/'
+
+s3 = boto3.client(
+   "s3",
+   aws_access_key_id=app.config['S3_KEY'],
+   aws_secret_access_key=app.config['S3_SECRET']
+)
+
+
 def get_cat_name(id):
     category = Category.query.filter_by(id=id).first()
     if category:
         return category.name
-
-
-# local image url format:
-img_url = 'https://microsun-ecommerce-backend.herokuapp.com/static/uploads/product/'
 
 
 @app.route('/category', methods=['POST'])
@@ -30,12 +40,28 @@ def add_categories():
         return {"message": "All fields are required"}, 404
 
     if photo:
-        photo_filename = secure_filename(photo.filename)
-        photo.save(os.path.join(app.config['UPLOAD_FOLDER_CATEGORY'], photo_filename))
-    else:
-        photo_filename = None
+        photo_name = secure_filename(photo.filename)
+        ext = photo_name.rsplit('.', 1)[1].lower()
+        photo_name = str(int(time.time())) + "." + ext
 
-    category = Category(name=name, description=description, photo=photo_filename)
+        try:
+            s3.upload_fileobj(
+                photo,
+                app.config['S3_BUCKET'],
+                'category/' + photo_name,
+                ExtraArgs={
+                    "ACL": "public-read"
+                }
+            )
+
+        except Exception as e:
+            # This is a catch all exception, edit this part to fit your needs.
+            print("Something Happened: ", e)
+            return {"message": "Error while uploading to s3"}, 404
+    else:
+        photo_name = None
+
+    category = Category(name=name, description=description, photo=photo_name)
 
     db.session.add(category)
     db.session.commit()
@@ -49,7 +75,8 @@ def get_categories(id):
 
     if category:
         res = []
-        obj = {"name": category.name, "description": category.description, "photo": category.photo, "id": category.id}
+        obj = {"name": category.name, "description": category.description, "photo": cat_img_url + category.photo,
+               "id": category.id}
         res.append(obj)
         return {"message": res}, 200
     else:
@@ -63,7 +90,8 @@ def get_all_categories():
     if categories:
         res = []
         for category in categories:
-            obj = {"name": category.name, "description": category.description, "photo": category.photo, "id": category.id}
+            obj = {"name": category.name, "description": category.description, "photo": cat_img_url + category.photo,
+                   "id": category.id}
             res.append(obj)
         return {"message": res}, 200
     else:
@@ -90,17 +118,33 @@ def add_product():
     category_id = request.form.get('category_id', None)
     price = request.form.get('price', None)
 
-    print(request.form)
+    # print(request.form)
     if not all((name, description, category_id, expirary, price)):
         return {"message": "All fields are required"}, 404
 
     if photo:
-        photo_filename = secure_filename(photo.filename)
-        photo.save(os.path.join(app.config['UPLOAD_FOLDER_PRODUCT'], photo_filename))
-    else:
-        photo_filename = None
+        photo_name = secure_filename(photo.filename)
+        ext = photo_name.rsplit('.', 1)[1].lower()
+        photo_name = str(int(time.time())) + "." + ext
 
-    product = Product(name=name, description=description, image=photo_filename, category_id=category_id,
+        try:
+            s3.upload_fileobj(
+                photo,
+                app.config['S3_BUCKET'],
+                'product/' + photo_name,
+                ExtraArgs={
+                    "ACL": "public-read"
+                }
+            )
+
+        except Exception as e:
+            # This is a catch all exception, edit this part to fit your needs.
+            print("Something Happened: ", e)
+            return {"message": "Error while uploading to s3"}, 404
+    else:
+        photo_name = None
+
+    product = Product(name=name, description=description, image=photo_name, category_id=category_id,
                       expiry=expirary, price=price)
     db.session.add(product)
     db.session.commit()
