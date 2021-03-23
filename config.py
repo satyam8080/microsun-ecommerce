@@ -9,7 +9,8 @@ class Config(object):
     JWT_SECRET_KEY = 'super-secret'
     JWT_TOKEN_LIFETIME = datetime.timedelta(days=365)
     # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'sqlite:///' + os.path.join(basedir, 'app.db')
-    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgres://kjvomsfuugmgnr:30baf748b17cadc949d61527c06faa83031275320d4b38b704a2fd8e08e07fdb@ec2-52-44-31-100.compute-1.amazonaws.com:5432/d1ihelegaknn9f'
+    # SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgres://kjvomsfuugmgnr:30baf748b17cadc949d61527c06faa83031275320d4b38b704a2fd8e08e07fdb@ec2-52-44-31-100.compute-1.amazonaws.com:5432/d1ihelegaknn9f'
+    SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or 'postgres://postgres:td2u96754w@microsun-ecommerce-database.ccx0fu5sqjsu.us-east-2.rds.amazonaws.com:5432/microsun_ecommerce_database'
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     PROPAGATE_EXCEPTIONS = True
     UPLOAD_FOLDER_CATEGORY = 'uploads/category'
