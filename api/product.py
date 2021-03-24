@@ -59,7 +59,7 @@ def add_categories():
             print("Something Happened: ", e)
             return {"message": "Error while uploading to s3"}, 404
     else:
-        photo_name = None
+        photo_name = "noimg.jpg"
 
     category = Category(name=name, description=description, photo=photo_name)
 
@@ -142,7 +142,7 @@ def add_product():
             print("Something Happened: ", e)
             return {"message": "Error while uploading to s3"}, 404
     else:
-        photo_name = None
+        photo_name = "noimg.jpg"
 
     product = Product(name=name, description=description, image=photo_name, category_id=category_id,
                       expiry=expirary, price=price)
