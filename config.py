@@ -26,3 +26,4 @@ class Config(object):
     S3_KEY = 'AKIAZT4IUTHNCNF5FB4M'
     S3_SECRET = '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'
     S3_LOCATION = 'http://{}.s3.amazonaws.com/'.format(S3_BUCKET)
+    WKHTMLTOPDF_BINARY = 'wkhtmltopdf-pack'
