@@ -35,7 +35,7 @@ def hello_world():
 
 @app.route('/xyz')
 def xyz():
-    return 'Hello Satyam'
+    return 'Hello April 1st'
 
 
 if __name__ == '__main__':
