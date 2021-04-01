@@ -27,7 +27,7 @@ def _get_pdfkit_config():
     else:
         # WKHTMLTOPDF_CMD = subprocess.Popen(['which', os.environ.get('WKHTMLTOPDF_BINARY', 'wkhtmltopdf')],
         #                                   stdout=subprocess.PIPE).communicate()[0].strip()
-        WKHTMLTOPDF_CMD = subprocess.Popen(['which', app.config['WKHTMLTOPDF_BINARY']],
+        WKHTMLTOPDF_CMD = subprocess.Popen(['which', 'wkhtmltopdf-pack'],
                                            stdout=subprocess.PIPE).communicate()[0].strip()
         return pdfkit.configuration(wkhtmltopdf=WKHTMLTOPDF_CMD)
 
@@ -37,7 +37,7 @@ def send_bill(id, transaction_id):
     to = user.email
     subject = "Order Confirmed"
     template = "new_user"
-    link = "http://ec2-3-14-4-166.us-east-2.compute.amazonaws.com/" + "pdf/get/" + transaction_id
+    link = "http://ec2-3-22-168-46.us-east-2.compute.amazonaws.com/" + "pdf/get/" + transaction_id
     msg = Message(subject, recipients=[to], sender=app.config['FLASKY_MAIL_SENDER'])
     msg.html = render_template(template + '.html', user=user, link=link)
     mail.send(msg)

@@ -176,27 +176,56 @@ def get_product(id):
         return {"message": "No product found"}, 404
 
 
+# @app.route('/product/category/<int:id>', methods=['GET'])
+# def get_product_by_category(id):
+#     products = Product.query.filter_by(category_id=id).all()
+#
+#     if products:
+#         res = []
+#         for product in products:
+#             if product.image:
+#                 image = product.image
+#             else:
+#                 image = "noimage.jpg"
+#
+#             if product.category_id:
+#                 cat_id = product.category_id
+#             else:
+#                 cat_id = 1
+#
+#             obj = {"product_id": product.id, "name": product.name, "description": product.description,
+#                    "photo": img_url + image, "price": product.price, "category_id": cat_id}
+#             res.append(obj)
+#         return {"message": res}, 200
+#     else:
+#         return {"message": "No product found"}, 404
+
+
 @app.route('/product/category/<int:id>', methods=['GET'])
 def get_product_by_category(id):
     products = Product.query.filter_by(category_id=id).all()
+    category = Category.query.filter_by(id=id).first()
 
     if products:
-        res = []
+        pro = []
         for product in products:
             if product.image:
                 image = product.image
             else:
-                image = "noimage.jpg"
+                image = "noimg.jpg"
 
             if product.category_id:
                 cat_id = product.category_id
             else:
                 cat_id = 1
 
-            obj = {"product_id": product.id, "name": product.name, "description": product.description,
-                   "photo": img_url + image, "price": product.price, "category_id": cat_id}
-            res.append(obj)
-        return {"message": res}, 200
+            pro_obj = {"product_id": product.id, "name": product.name, "description": product.description,
+                       "photo": img_url + image, "price": product.price, "category_id": cat_id}
+            pro.append(pro_obj)
+
+        obj = {"category_id": category.id, "category_name": category.name, "products": pro}
+
+        return {"message": obj}, 200
     else:
         return {"message": "No product found"}, 404
 
@@ -242,7 +271,7 @@ def get_all_products():
                     if product.image:
                         image = product.image
                     else:
-                        image = "noimage.jpg"
+                        image = "noimg.jpg"
 
                     if product.category_id:
                         cat_id = product.category_id
