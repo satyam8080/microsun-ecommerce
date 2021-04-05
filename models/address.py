@@ -7,7 +7,7 @@ class Address(db.Model):
 
     id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, default=None, nullable=False)
-    address = db.Column(db.String(256), nullable=False)
+    address = db.Column(db.String(9999), nullable=False)
     city = db.Column(db.String(32), nullable=False)
     state = db.Column(db.String(32), nullable=False)
     country = db.Column(db.String(32), nullable=False)
