@@ -47,7 +47,7 @@ def send_bill(id, transaction_id):
 
 def details(transaction_id):
     orders = Order.query.filter_by(transaction_id=transaction_id).all()
-    price = 0
+    price = 0.00
     res = []
     for order in orders:
         user = User.query.filter_by(id=order.user_id).first()
