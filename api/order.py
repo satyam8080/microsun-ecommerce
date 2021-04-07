@@ -74,8 +74,7 @@ def product_detail(id):
         return obj
 
 
-def shipping_address():
-    user_id = get_jwt_identity()
+def shipping_address(user_id):
     address = Address.query.filter_by(user_id=user_id).order_by(desc(Address.created_at)).first()
     if address:
         return address.address
@@ -85,7 +84,7 @@ def serialization(order):
     res = {"id": order.id, "user_id": order.user_id, "product_id": order.product_id, "price": order.price,
            "transaction_id": order.transaction_id, "mode": order.mode, "status": order.status,
            "added_on": order.created_at, "product_name": product_detail(order.product_id)['product_name'],
-           "shipping_address": shipping_address(), "username": username(order.user_id)}
+           "shipping_address": shipping_address(order.user_id), "username": username(order.user_id)}
     return res
 
 
@@ -135,10 +134,11 @@ def order_store():
 
 
 @app.route('/orders', methods=['GET'])
-@jwt_required
+# @jwt_required
 def history():
-    user_id = get_jwt_identity()
-    orders = Order.query.filter_by(user_id=user_id).order_by(desc(Order.created_at)).all()
+    # user_id = get_jwt_identity()
+    # orders = Order.query.filter_by(user_id=user_id).order_by(desc(Order.created_at)).all()
+    orders = Order.query.order_by(desc(Order.created_at)).all()
 
     if orders:
         res = []
