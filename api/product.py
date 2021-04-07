@@ -10,16 +10,15 @@ from flask import request, send_from_directory
 from models.category import Category
 from models.product import Product
 
-
 # local image url format:
 # img_url = 'https://microsun-ecommerce-backend.herokuapp.com/static/uploads/product/'
 img_url = app.config['S3_LOCATION'] + 'product/'
 cat_img_url = app.config['S3_LOCATION'] + 'category/'
 
 s3 = boto3.client(
-   "s3",
-   aws_access_key_id=app.config['S3_KEY'],
-   aws_secret_access_key=app.config['S3_SECRET']
+    "s3",
+    aws_access_key_id=app.config['S3_KEY'],
+    aws_secret_access_key=app.config['S3_SECRET']
 )
 
 
@@ -259,6 +258,44 @@ def delete_product(id):
 @app.route('/allproducts', methods=['GET'])
 def get_all_products():
     categories = Category.query.all()
+    if categories:
+        res = []
+        for categorie in categories:
+
+            products = Product.query.filter_by(category_id=categorie.id).all()
+
+            if products:
+                pro_list = []
+                for product in products:
+                    if product.image:
+                        image = product.image
+                    else:
+                        image = "noimg.jpg"
+
+                    if product.category_id:
+                        cat_id = product.category_id
+                    else:
+                        cat_id = 1
+
+                    product_obj = {"product_name": product.name, "product_id": product.id,
+                                   "price": product.price, "product_description": product.description,
+                                   "product_photo": img_url + image, "category_id": cat_id}
+                    pro_list.append(product_obj)
+            else:
+                pro_list = []
+            obj = {"id": categorie.id, "categorie_name": categorie.name, "description": categorie.description,
+                   "photo": categorie.photo, "products": pro_list}
+            res.append(obj)
+        return {"message": res}, 200
+    else:
+        return {"message": "No categories found"}, 404
+
+
+@app.route('/antivirus', methods=['GET'])
+def get_all_antivirus_products():
+    categories = Category.query.filter((Category.id == 13) | (Category.id == 14) | (Category.id == 15) |
+                                       (Category.id == 16) | (Category.id == 17) | (Category.id == 18)).all()
+
     if categories:
         res = []
         for categorie in categories:
